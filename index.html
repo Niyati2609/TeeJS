@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Customized T-Shirt Order Form</title>
+<link rel="stylesheet" type="text/css" href="style.css">
+
+</head>
+<body>
+<center>
+<p>
+<h1><font face="Rockwell" color="#013b47">Customize Your Tshirt!!</font></h1>
+<h3><font face="Courier New" color="grey">Fill in the details</font></h3></p>
+	<font face="Comic Sans MS" color="#07244a" >
+	<fieldset style="width: 400px;" align="left">
+    	<form action="#" method="post" onsubmit="return validateForm();">
+
+        <label for="text_input">Enter Name:</label>
+        <input type="text" id="text_input" name="text_input" placeholder="Enter text" required><br><br>
+
+        <label for="email_input">Enter Email:</label>
+        <input type="email" id="email_input" name="email_input" placeholder="Enter email" required><br><br>
+
+        <label for="address">Delivery Address:</label><br>
+        <textarea id="address" name="address" rows="4" cols="50" required></textarea><br><br>
+
+        <label for="phone">Phone Number:</label>
+        <input type="tel" id="phone" name="phone" pattern="[0-9]{10}" required><br><br>
+
+        <label for="tagline_input">Enter Tagline for Tshirt:</label>
+        <input type="text" id="tagline_input" name="tagline_input" contenteditable="true" placeholder="Enter Tagline" required value="YOU ONLY LIVE ONCE"><br><br>
+
+        <details>
+            <summary>References</summary>
+            - Maybe you're right<br>
+            - Life won't wait<br>
+            - Read a book
+        </details><br>
+
+        <label for="number_input">Enter Quantity:</label>
+        <input type="number" id="number_input" name="number_input" min="1" max="100" required><br><br>
+
+        <label for="date_input_start">Select preferred delivery slot:</label><br>
+        <input type="datetime-local" id="date_input_start" name="date_input_start" required>
+        to
+        <input type="datetime-local" id="date_input_end" name="date_input_end" required><br><br>
+
+        <label for="gender">Gender:</label><br>
+        <input type="radio" id="male" name="gender" value="male" required>
+        <label for="male">Male</label><br>
+        <input type="radio" id="female" name="gender" value="female" required>
+        <label for="female">Female</label><br>
+        <input type="radio" id="other" name="gender" value="other" required>
+        <label for="other">Other</label><br><br>
+
+        <label for="size">Size:</label>
+        <select id="size" name="size" required>
+            <option value="">Select size</option>
+            <option value="S">S</option>
+            <option value="M">M</option>
+            <option value="L">L</option>
+            <option value="XL">XL</option>
+        </select><br><br>
+
+        <label for="color_input">Color:</label>
+        <input type="color" id="color_input" name="color_input"><br><br>
+
+        <label for="file_input">Picture for Tshirt:</label>
+        <input type="file" id="file_input" name="file_input"><br><br>
+
+        <label for="range_input">Budget Range: </label>
+        <input type="range" id="range_input" name="range_input" min="0" max="1000" step="5" oninput="range_value.innerText = range_input.value;"><span id="range_value">500</span><br><br>
+
+        <fieldset title="Additional features">
+            <legend><label for="features">Additional Features:</label><br></legend>
+            <input type="checkbox" id="pockets" name="features[]" value="pockets">
+            <label for="pockets">Add Pockets</label><br>
+            <input type="checkbox" id="embroidery" name="features[]" value="embroidery">
+            <label for="embroidery">Embroidery</label><br>
+            <input type="checkbox" id="express" name="delivery[]" value="express">
+            <label for="express">Express Shipping</label><br>
+            <input type="checkbox" id="gift_wrap" name="delivery[]" value="gift_wrap">
+            <label for="gift_wrap">Gift Wrapping</label><br>
+        </fieldset><br><br>
+        <center><input type="submit" value="Submit">
+        <input type="reset" value="Reset"></center><br>
+    </form>
+</fieldset>
+</center>
+
+
+<script>
+function validateForm() {
+    var name = document.getElementById("text_input").value;
+    var email = document.getElementById("email_input").value;
+    var phone = document.getElementById("phone").value;
+    var tagline = document.getElementById("tagline_input").value;
+
+    if (name.length < 3) {
+        alert("Please enter a valid name.");
+        return false;
+    }
+
+    if (!validatePhone(phone)) {
+        alert("Please enter a valid 10-digit phone number.");
+        return false;
+    }
+    generateReceipt();
+    return true;
+}
+
+function validatePhone(phone) {
+    var phoneRegex = /^[0-9]{10}$/;
+    return phoneRegex.test(phone);
+}
+
+function generateReceipt() {
+    var receiptDate = new Date().toLocaleDateString();
+    var name = document.getElementById("text_input").value;
+    var email = document.getElementById("email_input").value;
+    var address = document.getElementById("address").value;
+    var phone = document.getElementById("phone").value;
+    var tagline = document.getElementById("tagline_input").value;
+    var quantity = document.getElementById("number_input").value;
+    var deliveryStart = document.getElementById("date_input_start").value;
+    var deliveryEnd = document.getElementById("date_input_end").value;
+    var gender = document.querySelector('input[name="gender"]:checked').value;
+    var size = document.getElementById("size").value;
+    var color = document.getElementById("color_input").value;
+    
+    var receiptMessage = "Thank you for your order!\n\n";
+    receiptMessage += "Order received on " + receiptDate + ".\n\n";
+    receiptMessage += "Name: " + name + "\n";
+    receiptMessage += "Email: " + email + "\n";
+    receiptMessage += "Delivery Address: " + address + "\n";
+    receiptMessage += "Phone Number: " + phone + "\n";
+    receiptMessage += "Tagline for Tshirt: " + tagline + "\n";
+    receiptMessage += "Quantity: " + quantity + "\n";
+    receiptMessage += "Preferred Delivery Slot: " + deliveryStart + " to " + deliveryEnd + "\n";
+    receiptMessage += "Gender: " + gender + "\n";
+    receiptMessage += "Size: " + size + "\n";
+    receiptMessage += "Color: " + color + "\n";
+    
+    // Additional details can be added as needed
+    
+    alert(receiptMessage);
+}
+
+</script>
+</body>
+</html>
